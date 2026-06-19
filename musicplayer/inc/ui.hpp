@@ -7,11 +7,11 @@
 
 class UI {
 private:
-  Player &player; // reference, not a copy
+  Player &player;
   std::vector<std::string> tracks;
   std::vector<std::string> trackNames;
-  int selected = 0;  // cursor position in list
-  int current = -1;  // currently loaded/playing track index
+  int selected = 0;
+  int current = -1;
   std::string musicDir;
 
   void ScanLibrary();

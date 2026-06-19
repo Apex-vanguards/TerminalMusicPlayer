@@ -7,7 +7,7 @@
 
 static bool HasAudioExt(const std::string &name) {
   static const char *exts[] = {".mp3", ".wav", ".flac", ".ogg",
-                                ".m4a", ".aac", ".opus"};
+                               ".m4a", ".aac", ".opus"};
   for (auto ext : exts) {
     size_t elen = strlen(ext);
     if (name.size() >= elen &&
@@ -94,7 +94,7 @@ void UI::Draw() {
     int maxY, maxX;
     getmaxyx(stdscr, maxY, maxX);
     (void)maxX;
-    int listRows = maxY - 7; // leave room for header/footer
+    int listRows = maxY - 7;
     if (listRows < 1)
       listRows = 1;
 
@@ -141,7 +141,7 @@ void UI::Start() {
   noecho();
   curs_set(0);
   keypad(stdscr, TRUE);
-  timeout(150); // non-blocking-ish getch, refresh loop every 150ms
+  timeout(150);
 
   bool running = true;
   while (running) {
@@ -185,7 +185,6 @@ void UI::Start() {
       break;
     }
 
-    // auto-advance to next track when current finishes
     if (current >= 0 && !tracks.empty()) {
       if (!player.IsPlaying() && player.GetCursorSeconds() > 0.0 &&
           player.GetLengthSeconds() > 0.0 &&

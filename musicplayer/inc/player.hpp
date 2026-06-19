@@ -16,7 +16,6 @@ public:
   Player();
   ~Player();
 
-  // no copying: ma_engine/ma_sound own native resources
   Player(const Player &) = delete;
   Player &operator=(const Player &) = delete;
 
@@ -28,7 +27,7 @@ public:
   bool IsLoaded() const { return soundLoaded; }
 
   void SetFilePath(const std::string &newFilePath);
-  bool LoadCurrent(); // (re)loads `sound` from filePath
+  bool LoadCurrent();
   double GetCursorSeconds();
   double GetLengthSeconds();
   void SetVolume(float v);
