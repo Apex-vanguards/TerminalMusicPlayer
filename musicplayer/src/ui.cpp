@@ -1,8 +1,11 @@
 #include "../inc/ui.hpp"
 #include <algorithm>
+#include <chrono>
 #include <cstring>
 #include <dirent.h>
 #include <ncurses.h>
+#include <random>
+#include <stdexcept>
 #include <sys/stat.h>
 
 static bool HasAudioExt(const std::string &name) {
@@ -50,7 +53,13 @@ void UI::ScanLibrary() {
   }
   closedir(d);
 
-  std::sort(names.begin(), names.end());
+  // std::sort(names.begin(), names.end());
+
+  if (isShuffled) {
+    std::random_device rdv;
+    std::mt19937 g(rdv());
+    std::shuffle(names.begin(), names.end(), g);
+  }
 
   for (auto &name : names) {
     trackNames.push_back(name);
@@ -84,8 +93,9 @@ void UI::PlayPrev() {
 void UI::Draw() {
   erase();
   printw("Terminal Music Player  -  %s\n", musicDir.c_str());
-  printw("up/down: select  enter: play  p: pause/resume  s: stop  "
-         "n: next  b: prev  q: quit\n");
+  printw("up/down: select  enter: play  p: pause  s: stop  n: next  b: prev  "
+         "r: shuffle  a: alpha  q: quit\n");
+  printw("Mode: %s\n", isShuffled ? "SHUFFLE" : "SAME");
   printw("---------------------------------------------------------------\n");
 
   if (tracks.empty()) {
@@ -180,6 +190,18 @@ void UI::Start() {
     case 'b':
     case 'B':
       PlayPrev();
+      break;
+    case 'r':
+    case 'R':
+      isShuffled = true;
+      ScanLibrary();
+      selected = 0;
+      break;
+    case 'a':
+    case 'A':
+      isShuffled = false;
+      ScanLibrary();
+      selected = 0;
       break;
     default:
       break;

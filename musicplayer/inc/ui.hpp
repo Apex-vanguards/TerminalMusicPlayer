@@ -13,6 +13,7 @@ private:
   int selected = 0;
   int current = -1;
   std::string musicDir;
+  bool isShuffled = false;
 
   void ScanLibrary();
   void Draw();
