@@ -32,7 +32,7 @@ bool Player::LoadCurrent() {
   }
 
   if (ma_sound_init_from_file(&engine, filePath.c_str(), 0, NULL, NULL,
-                               &sound) != MA_SUCCESS) {
+                              &sound) != MA_SUCCESS) {
     return false;
   }
   soundLoaded = true;
