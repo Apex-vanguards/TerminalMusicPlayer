@@ -1,7 +1,7 @@
 pkgname=terminalmusicplayer-git
 pkgver=1.0.0
 pkgrel=1
-pkgdesc="Terminal tabanlı müzik çalar"
+pkgdesc="Terminal"
 arch=('x86_64')
 url="https://github.com/Apex-vanguards/TerminalMusicPlayer"
 license=('MIT')
