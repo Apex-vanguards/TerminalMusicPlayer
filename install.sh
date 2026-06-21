@@ -18,6 +18,7 @@ echo "Checking and installing dependencies..."
 pacman -S --needed --noconfirm "${DEPENDENCIES[@]}"
 
 echo "Installing binary files..."
+rm $INSTALL_DIR/musicplayer
 cp ./musicplayer/musicplayer $INSTALL_DIR/
 chmod +x $INSTALL_DIR/musicplayer
 
