@@ -10,6 +10,7 @@ INSTALL_DIR="/usr/local/bin"
 ICON_PATH="/usr/share/pixmaps/CatMusicPlayer.ico"
 DESKTOP_FILE="/usr/share/applications/musicplayer.desktop"
 DEPENDENCIES=("cmake" "gcc" "alsa-lib" "ncurses")
+THEMES_DIR="/usr/share/CatMusicPlayer/themes"
 
 echo "--- Installation started ---"
 
@@ -33,5 +34,9 @@ Type=Application
 Terminal=true
 Categories=AudioVideo;Player;
 EOF
+
+echo "Creating themes folder"
+mkdir -p /usr/share/CatMusicPlayer/themes
+cp -r themes/* /usr/share/CatMusicPlayer/themes
 
 echo "Installation completed successfully!"

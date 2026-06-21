@@ -1,0 +1,48 @@
+# ─────────────────────────────
+#  Cappuccino  —  warm & cozy
+# ─────────────────────────────
+name = Cappuccino
+
+[Default]
+fg = white
+bg = black
+
+[Title]
+fg = yellow
+bg = black
+attr = bold
+
+[Border]
+fg = magenta
+bg = black
+
+[Highlight]
+fg = black
+bg = yellow
+attr = bold
+
+[Progress]
+fg = black
+bg = green
+
+[ProgressBg]
+fg = white
+bg = black
+
+[Status]
+fg = cyan
+bg = black
+
+[Artist]
+fg = magenta
+bg = black
+
+[TimeStamp]
+fg = white
+bg = black
+attr = dim
+
+[Inactive]
+fg = white
+bg = black
+attr = dim

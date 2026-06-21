@@ -5,10 +5,11 @@
 #include <string>
 
 enum PlayerModeState { /// NOTE: Mode of how to play music
-    // SHUFFLE, /// NOTE: shuffle the music 1 time, then play as normal()
-    REPEAT,  /// NOTE: Only play 1 music (when u press next, itll go to next music)
-    NORMAL, /// NOTE: play as normal
-    RANDOM, /// Every time u press next, it'll select a random music(u can go previus music only for 5 times bcz itll stored as a vector)
+  // SHUFFLE, /// NOTE: shuffle the music 1 time, then play as normal()
+  REPEAT, /// NOTE: Only play 1 music (when u press next, itll go to next music)
+  NORMAL, /// NOTE: play as normal
+  RANDOM, /// Every time u press next, it'll select a random music(u can go
+          /// previus music only for 5 times bcz itll stored as a vector)
 };
 
 class Player {

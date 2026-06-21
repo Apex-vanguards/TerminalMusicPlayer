@@ -1,0 +1,48 @@
+# ─────────────────────────────
+#  Gruvbox  —  retro groove
+# ─────────────────────────────
+name = Gruvbox
+
+[Default]
+fg = white
+bg = black
+
+[Title]
+fg = yellow
+bg = black
+attr = bold
+
+[Border]
+fg = red
+bg = black
+
+[Highlight]
+fg = black
+bg = red
+attr = bold
+
+[Progress]
+fg = black
+bg = yellow
+
+[ProgressBg]
+fg = white
+bg = black
+
+[Status]
+fg = green
+bg = black
+
+[Artist]
+fg = red
+bg = black
+
+[TimeStamp]
+fg = white
+bg = black
+attr = dim
+
+[Inactive]
+fg = white
+bg = black
+attr = dim

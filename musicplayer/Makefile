@@ -2,7 +2,7 @@ CXX := g++
 CXXFLAGS := -std=c++17 -Wall -Wextra -O2
 LDLIBS := -lncurses -lpthread -ldl -lm
 
-SRC := main.cpp src/player.cpp src/ui.cpp
+SRC := main.cpp src/player.cpp src/ui.cpp src/theme.cpp
 BIN := musicplayer
 
 all: $(BIN)

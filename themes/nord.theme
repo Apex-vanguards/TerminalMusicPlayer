@@ -1,0 +1,48 @@
+# ─────────────────────────────
+#  Nord  —  cool arctic blue
+# ─────────────────────────────
+name = Nord
+
+[Default]
+fg = white
+bg = black
+
+[Title]
+fg = blue
+bg = black
+attr = bold
+
+[Border]
+fg = cyan
+bg = black
+
+[Highlight]
+fg = black
+bg = blue
+attr = bold
+
+[Progress]
+fg = black
+bg = cyan
+
+[ProgressBg]
+fg = white
+bg = black
+
+[Status]
+fg = green
+bg = black
+
+[Artist]
+fg = cyan
+bg = black
+
+[TimeStamp]
+fg = white
+bg = black
+attr = dim
+
+[Inactive]
+fg = white
+bg = black
+attr = dim

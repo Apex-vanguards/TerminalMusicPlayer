@@ -1,0 +1,48 @@
+# ─────────────────────────────
+#  Dracula  —  dark & purple
+# ─────────────────────────────
+name = Dracula
+
+[Default]
+fg = white
+bg = black
+
+[Title]
+fg = magenta
+bg = black
+attr = bold
+
+[Border]
+fg = purple
+bg = black
+
+[Highlight]
+fg = black
+bg = magenta
+attr = bold
+
+[Progress]
+fg = black
+bg = cyan
+
+[ProgressBg]
+fg = white
+bg = black
+
+[Status]
+fg = green
+bg = black
+
+[Artist]
+fg = cyan
+bg = black
+
+[TimeStamp]
+fg = white
+bg = black
+attr = dim
+
+[Inactive]
+fg = white
+bg = black
+attr = dim

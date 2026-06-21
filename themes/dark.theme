@@ -1,0 +1,48 @@
+# ─────────────────────────────
+#  Dark  —  classic terminal
+# ─────────────────────────────
+name = Dark
+
+[Default]
+fg = white
+bg = black
+
+[Title]
+fg = cyan
+bg = black
+attr = bold
+
+[Border]
+fg = blue
+bg = black
+
+[Highlight]
+fg = black
+bg = cyan
+attr = bold
+
+[Progress]
+fg = black
+bg = blue
+
+[ProgressBg]
+fg = white
+bg = black
+
+[Status]
+fg = green
+bg = black
+
+[Artist]
+fg = cyan
+bg = black
+
+[TimeStamp]
+fg = white
+bg = black
+attr = dim
+
+[Inactive]
+fg = white
+bg = black
+attr = dim

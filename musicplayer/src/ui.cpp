@@ -1,6 +1,9 @@
 #include "../inc/ui.hpp"
+#include "../inc/theme.hpp"
 #include <algorithm>
+#include <cassert>
 #include <chrono>
+#include <cstdlib>
 #include <cstring>
 #include <dirent.h>
 #include <ncurses.h>
@@ -56,7 +59,7 @@ void UI::ScanLibrary() {
   // std::sort(names.begin(), names.end());
 
   if (isShuffle) {
-      isShuffle = false;
+    isShuffle = false;
     std::random_device rdv;
     std::mt19937 g(rdv());
     std::shuffle(names.begin(), names.end(), g);
@@ -68,32 +71,89 @@ void UI::ScanLibrary() {
   }
 }
 
+bool UI::isValidMusicIndex(int index) {
+  return (bool)0 <= index && index < tracks.size();
+}
+
 void UI::PlaySelected() {
   if (tracks.empty())
     return;
+  if (isValidMusicIndex(current)) {
+    prevTracks.push_back(current);
+  }
   current = selected;
   player.SetFilePath(tracks[current]);
   player.LoadCurrent();
   player.Play();
+  while (prevTracks.size() > MAXPREVSONGCNT) {
+    assert(prevTracks.size() > 0);
+    prevTracks.pop_front();
+  }
+}
+
+void UI::NextMode() {
+  if (state == NORMAL) {
+    state = RANDOM;
+  } else if (state == RANDOM) {
+    state = REPEAT;
+  } else if (state == REPEAT) {
+    state = NORMAL;
+  }
 }
 
 void UI::PlayNext() {
-  if (tracks.empty())
-    return;
-  selected = (current + 1) % (int)tracks.size();
-  PlaySelected();
+  if (state == NORMAL) {
+    if (tracks.empty()) {
+      return;
+    }
+    selected = (current + 1) % (int)tracks.size();
+    PlaySelected();
+  }
+  if (state == RANDOM) {
+    if (tracks.empty()) {
+      return;
+    }
+    selected = rand() % (int)tracks.size();
+    PlaySelected();
+  }
+  if (state == REPEAT) {
+    if (tracks.empty()) {
+      return;
+    }
+    selected = current;
+    PlaySelected();
+  }
 }
 
 void UI::PlayPrev() {
-  if (tracks.empty())
+  if (tracks.empty() || prevTracks.empty())
     return;
-  selected = (current - 1 + (int)tracks.size()) % (int)tracks.size();
+  assert(!prevTracks.empty());
+  assert(prevTracks.size() > 0);
+  selected = prevTracks.back();
+  prevTracks.pop_back();
   PlaySelected();
+  assert(!prevTracks.empty());
+  prevTracks.pop_back();
+}
+
+const char *UI::getMode() {
+  if (state == RANDOM) {
+    return "RANDOM";
+  } else if (state == NORMAL) {
+    return "NORMAL";
+  } else {
+    return "REPEAT";
+  }
 }
 
 void UI::Draw() {
   erase();
+
+  attron(themes.pair(CP::Title) | themes.attr(CP::Title));
   printw("Terminal Music Player  -  %s\n", musicDir.c_str());
+  attroff(themes.pair(CP::Title) | themes.attr(CP::Title));
+
   printw("up/down: select  enter: play  p: pause  s: stop  n: next  b: prev  "
          "r: shuffle  a: alpha  q: quit  m: next mode\n");
   printw("Mode: %s\n", state == RANDOM ? "SHUFFLE" : "SAME");
@@ -110,35 +170,44 @@ void UI::Draw() {
       listRows = 1;
 
     int start = 0;
-    if (selected >= listRows) {
+    if (selected >= listRows)
       start = selected - listRows + 1;
-    }
     int end = std::min((int)tracks.size(), start + listRows);
 
     for (int i = start; i < end; ++i) {
       bool isSelected = (i == selected);
       bool isPlaying = (i == current);
-
-      if (isSelected)
-        attron(A_REVERSE);
-
       const char *marker = isPlaying ? "> " : "  ";
-      printw("%s%s\n", marker, trackNames[i].c_str());
 
-      if (isSelected)
-        attroff(A_REVERSE);
+      if (isSelected) {
+        attron(themes.pair(CP::Highlight) | themes.attr(CP::Highlight));
+        printw("%s%s\n", marker, trackNames[i].c_str());
+        attroff(themes.pair(CP::Highlight) | themes.attr(CP::Highlight));
+      } else if (isPlaying) {
+        attron(themes.pair(CP::Status) | themes.attr(CP::Status));
+        printw("%s%s\n", marker, trackNames[i].c_str());
+        attroff(themes.pair(CP::Status) | themes.attr(CP::Status));
+      } else {
+        attron(themes.pair(CP::Default));
+        printw("%s%s\n", marker, trackNames[i].c_str());
+        attroff(themes.pair(CP::Default));
+      }
     }
   }
 
   printw("---------------------------------------------------------------\n");
+
   if (current >= 0 && current < (int)tracks.size()) {
     double pos = player.GetCursorSeconds();
     double len = player.GetLengthSeconds();
     int pm = (int)pos / 60, ps = (int)pos % 60;
     int lm = (int)len / 60, ls = (int)len % 60;
+
+    attron(themes.pair(CP::Status) | themes.attr(CP::Status));
     printw("Now playing: %s   [%02d:%02d / %02d:%02d]  %s\n",
            trackNames[current].c_str(), pm, ps, lm, ls,
            player.IsPlaying() ? "(playing)" : "(paused/stopped)");
+    attroff(themes.pair(CP::Status) | themes.attr(CP::Status));
   } else {
     printw("Nothing playing\n");
   }
@@ -153,6 +222,12 @@ void UI::Start() {
   curs_set(0);
   keypad(stdscr, TRUE);
   timeout(150);
+
+  // NOTE : BURADA THEMENI ACIRAM BRO
+  start_color();
+  themes.loadFromDisk();
+  themes.setTheme("dracula");
+  themes.apply();
 
   bool running = true;
   while (running) {
@@ -203,6 +278,10 @@ void UI::Start() {
       state = NORMAL;
       ScanLibrary();
       selected = 0;
+      break;
+    case 'm':
+    case 'M':
+      NextMode();
       break;
     default:
       break;
