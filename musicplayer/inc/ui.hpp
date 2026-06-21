@@ -14,6 +14,7 @@ private:
   int current = -1;
   std::string musicDir;
   PlayerModeState  state;
+  bool isShuffle = false;
 
   void ScanLibrary();
   void Draw();
