@@ -55,7 +55,7 @@ void UI::ScanLibrary() {
 
   // std::sort(names.begin(), names.end());
 
-  if (isShuffled) {
+  if (state == RANDOM) {
     std::random_device rdv;
     std::mt19937 g(rdv());
     std::shuffle(names.begin(), names.end(), g);
@@ -95,7 +95,7 @@ void UI::Draw() {
   printw("Terminal Music Player  -  %s\n", musicDir.c_str());
   printw("up/down: select  enter: play  p: pause  s: stop  n: next  b: prev  "
          "r: shuffle  a: alpha  q: quit\n");
-  printw("Mode: %s\n", isShuffled ? "SHUFFLE" : "SAME");
+  printw("Mode: %s\n", state == RANDOM ? "SHUFFLE" : "SAME");
   printw("---------------------------------------------------------------\n");
 
   if (tracks.empty()) {
@@ -193,13 +193,13 @@ void UI::Start() {
       break;
     case 'r':
     case 'R':
-      isShuffled = true;
+      state = RANDOM;
       ScanLibrary();
       selected = 0;
       break;
     case 'a':
     case 'A':
-      isShuffled = false;
+      state = NORMAL;
       ScanLibrary();
       selected = 0;
       break;
