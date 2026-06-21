@@ -1,43 +1,30 @@
 #!/bin/bash
 
-if [ "$EUID" -ne 0 ]; then
-  echo "Please run as root (use sudo)"
-  exit
-fi
+: "${pkgdir:=/}"
 
-APP_NAME="CatMusicPlayer"
-INSTALL_DIR="/usr/local/bin"
-ICON_PATH="/usr/share/pixmaps/CatMusicPlayer.ico"
-DESKTOP_FILE="/usr/share/applications/musicplayer.desktop"
-DEPENDENCIES=("cmake" "gcc" "alsa-lib" "ncurses")
-THEMES_DIR="/usr/share/CatMusicPlayer/themes"
+INSTALL_DIR="$pkgdir/usr/local/bin"
+ICON_PATH="$pkgdir/usr/share/pixmaps/CatMusicPlayer.ico"
+DESKTOP_FILE="$pkgdir/usr/share/applications/musicplayer.desktop"
+THEMES_DIR="$pkgdir/usr/share/CatMusicPlayer/themes"
 
-echo "--- Installation started ---"
+mkdir -p "$INSTALL_DIR"
+mkdir -p "$(dirname "$ICON_PATH")"
+mkdir -p "$(dirname "$DESKTOP_FILE")"
+mkdir -p "$THEMES_DIR"
 
-echo "Checking and installing dependencies..."
-pacman -S --needed --noconfirm "${DEPENDENCIES[@]}"
+cp ./musicplayer/musicplayer "$INSTALL_DIR/"
+chmod +x "$INSTALL_DIR/musicplayer"
 
-echo "Installing binary files..."
-rm $INSTALL_DIR/musicplayer
-cp ./musicplayer/musicplayer $INSTALL_DIR/
-chmod +x $INSTALL_DIR/musicplayer
+cp icon.ico "$ICON_PATH"
 
-echo "Installing icon..."
-cp icon.ico $ICON_PATH
-
-echo "Creating desktop entry..."
-cat <<EOF >$DESKTOP_FILE
+cat <<EOF >"$DESKTOP_FILE"
 [Desktop Entry]
 Name=Cat Music Player
-Exec=$INSTALL_DIR/musicplayer
-Icon=$ICON_PATH
+Exec=/usr/local/bin/musicplayer
+Icon=/usr/share/pixmaps/CatMusicPlayer.ico
 Type=Application
 Terminal=true
 Categories=AudioVideo;Player;
 EOF
 
-echo "Creating themes folder"
-mkdir -p /usr/share/CatMusicPlayer/themes
-cp -r themes/* /usr/share/CatMusicPlayer/themes
-
-echo "Installation completed successfully!"
+cp -r themes/* "$THEMES_DIR/"
