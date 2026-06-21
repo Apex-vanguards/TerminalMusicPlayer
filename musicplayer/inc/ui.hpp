@@ -12,6 +12,9 @@ class UI {
 private:
   Player &player;
   ThemeManager themes;
+  std::vector<std::string> THEMES = {"cappuccino", "dark", "dracula", "gruvbox",
+                                     "nord"};
+  int theme_idx = 0;
   std::vector<std::string> tracks;
   std::vector<std::string> trackNames;
   std::deque<int> prevTracks;
@@ -29,6 +32,7 @@ private:
   const char *getMode(void);
   void NextMode(void);
   bool isValidMusicIndex(int index);
+  void ChangeThemeNext();
 
 public:
   UI(Player &p, const std::string &dir);

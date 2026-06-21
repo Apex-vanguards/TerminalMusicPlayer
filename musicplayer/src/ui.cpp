@@ -155,7 +155,7 @@ void UI::Draw() {
   attroff(themes.pair(CP::Title) | themes.attr(CP::Title));
 
   printw("up/down: select  enter: play  p: pause  s: stop  n: next  b: prev  "
-         "r: shuffle  a: alpha  q: quit  m: next mode\n");
+         "r: shuffle  a: alpha  q: quit l: next theme  m: next mode\n");
   printw("Mode: %s\n", state == RANDOM ? "SHUFFLE" : "SAME");
   printw("---------------------------------------------------------------\n");
 
@@ -215,6 +215,16 @@ void UI::Draw() {
   refresh();
 }
 
+void UI::ChangeThemeNext() {
+  if (theme_idx + 1 == THEMES.size()) {
+    theme_idx = 0;
+  } else {
+    theme_idx++;
+  }
+  themes.setTheme(THEMES[theme_idx]);
+  themes.apply();
+}
+
 void UI::Start() {
   initscr();
   cbreak();
@@ -226,7 +236,7 @@ void UI::Start() {
   // NOTE : BURADA THEMENI ACIRAM BRO
   start_color();
   themes.loadFromDisk();
-  themes.setTheme("dracula");
+  themes.setTheme(THEMES[theme_idx]);
   themes.apply();
 
   bool running = true;
@@ -282,6 +292,10 @@ void UI::Start() {
     case 'm':
     case 'M':
       NextMode();
+      break;
+    case 'l':
+    case 'L':
+      ChangeThemeNext();
       break;
     default:
       break;
