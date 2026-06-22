@@ -48,6 +48,8 @@ Or find **Cat Music Player** in your desktop application menu (under AudioVideo)
 
 ## Project Structure
 
+recommendedL creating .config/CatMusicPlayer/ 
+
 ```
 TerminalMusicPlayer/
 ├── musicplayer/       # C++ source code and Makefile
