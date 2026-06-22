@@ -21,14 +21,6 @@ These dependencies are automatically installed by the install script on Arch-bas
 
 ## Installation
 
-### Arch Linux (via PKGBUILD)
-
-```bash
-git clone https://github.com/Apex-vanguards/TerminalMusicPlayer.git
-cd TerminalMusicPlayer
-makepkg -si
-```
-
 ### Manual Installation
 
 ```bash
@@ -39,6 +31,7 @@ sudo ./install.sh
 ```
 
 The install script will:
+
 - Install the `musicplayer` binary to `/usr/local/bin/`
 - Copy the icon to `/usr/share/pixmaps/`
 - Create a `.desktop` entry so it appears in your application launcher
@@ -59,8 +52,6 @@ Or find **Cat Music Player** in your desktop application menu (under AudioVideo)
 TerminalMusicPlayer/
 ├── musicplayer/       # C++ source code and Makefile
 ├── install.sh         # Installation script (requires root)
-├── PKGBUILD           # Arch Linux package build file
-├── .SRCINFO           # AUR source info
 ├── icon.ico           # Application icon
 └── LISENSE            # MIT License
 ```

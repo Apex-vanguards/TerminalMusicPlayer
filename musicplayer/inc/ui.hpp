@@ -2,6 +2,7 @@
 #define UI_HPP
 
 #include "player.hpp"
+#include "playlist.hpp"
 #include "theme.hpp"
 #include <deque>
 #include <string>
@@ -10,6 +11,14 @@
 
 class UI {
 private:
+  PlaylistManager plMgr;
+  int plSelected = 0;
+  bool inPlaylistMode = false;
+  bool inPlaylistSelector = false;
+  int plSelectorIdx = 0;
+  std::vector<std::string> plSelectorList;
+  std::string flashMsg;
+  int flashTicks = 0;
   Player &player;
   ThemeManager themes;
   std::vector<std::string> THEMES = {"cappuccino", "dark", "dracula", "gruvbox",
@@ -26,13 +35,24 @@ private:
 
   void ScanLibrary(void);
   void Draw(void);
+  void DrawPlaylistSelector(void);
   void PlaySelected(void);
   void PlayNext(void);
   void PlayPrev(void);
   const char *getMode(void);
   void NextMode(void);
   bool isValidMusicIndex(int index);
-  void ChangeThemeNext();
+  void ChangeThemeNext(void);
+  void getPlaylists(void);
+  void getMusicsFromPlaylist(std::string &playlist);
+  void toggleAllLoadingDirs(void);
+  void AddCurrentToPlaylist();
+  void RemoveFromPlaylist();
+  void SavePlaylist();
+  void NewPlaylist();
+  void PlayFromPlaylist();
+  void OpenPlaylistSelector();
+  void SetFlash(const std::string &msg, int ticks = 8);
 
 public:
   UI(Player &p, const std::string &dir);
